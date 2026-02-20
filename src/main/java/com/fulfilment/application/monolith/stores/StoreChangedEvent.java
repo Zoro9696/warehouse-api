@@ -18,6 +18,7 @@ public class StoreChangedEvent {
     public Store getStore() {
         return store;
     }
+
     public Operation getOperation() {
         return operation;
     }

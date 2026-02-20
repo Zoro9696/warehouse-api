@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StoreResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">java-code-assignment</a> &gt; <a href="index.source.html" class="el_package">com.fulfilment.application.monolith.stores</a> &gt; <span class="el_source">StoreResource.java</span></div><h1>StoreResource.java</h1><pre class="source lang-java linenums">package com.fulfilment.application.monolith.stores;
+
+import com.fulfilment.application.monolith.stores.Store;
+import com.fulfilment.application.monolith.stores.StoreChangedEvent;
+import io.quarkus.panache.common.Sort;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
+
+import java.util.List;
+import java.util.logging.Logger;
+
+@Path(&quot;store&quot;)
+@ApplicationScoped
+@Produces(&quot;application/json&quot;)
+@Consumes(&quot;application/json&quot;)
+<span class="nc" id="L19">public class StoreResource {</span>
+
+    @Inject
+    jakarta.enterprise.event.Event&lt;StoreChangedEvent&gt; storeChangedEvent;
+
+<span class="nc" id="L24">    private static final Logger LOGGER = Logger.getLogger(StoreResource.class.getName());</span>
+
+    // ---------------- GET ----------------
+
+    @GET
+    public List&lt;Store&gt; get() {
+<span class="nc" id="L30">        return Store.listAll(Sort.by(&quot;name&quot;));</span>
+    }
+
+    @GET
+    @Path(&quot;{id}&quot;)
+    public Store getSingle(@PathParam(&quot;id&quot;) Long id) {
+<span class="nc" id="L36">        Store entity = Store.findById(id);</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (entity == null) {</span>
+<span class="nc" id="L38">            throw new WebApplicationException(&quot;Store with id of &quot; + id + &quot; does not exist.&quot;, 404);</span>
+        }
+<span class="nc" id="L40">        return entity;</span>
+    }
+
+    // ---------------- CREATE ----------------
+
+    @POST
+    @Transactional
+    public Response create(Store store) {
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        if (store.id != null) {</span>
+<span class="nc" id="L49">            throw new WebApplicationException(&quot;Id was invalidly set on request.&quot;, 422);</span>
+        }
+
+<span class="nc" id="L52">        store.persist();</span>
+
+<span class="nc" id="L54">        storeChangedEvent.fire(</span>
+                new StoreChangedEvent(store, StoreChangedEvent.Operation.CREATE)
+        );
+
+<span class="nc" id="L58">        return Response.status(201).entity(store).build();</span>
+    }
+
+    // ---------------- UPDATE ----------------
+
+    @PUT
+    @Path(&quot;{id}&quot;)
+    @Transactional
+    public Store update(@PathParam(&quot;id&quot;) Long id, Store updatedStore) {
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (updatedStore.name == null) {</span>
+<span class="nc" id="L69">            throw new WebApplicationException(&quot;Store Name was not set on request.&quot;, 422);</span>
+        }
+
+<span class="nc" id="L72">        Store entity = Store.findById(id);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (entity == null) {</span>
+<span class="nc" id="L74">            throw new WebApplicationException(&quot;Store with id of &quot; + id + &quot; does not exist.&quot;, 404);</span>
+        }
+
+<span class="nc" id="L77">        entity.name = updatedStore.name;</span>
+<span class="nc" id="L78">        entity.quantityProductsInStock = updatedStore.quantityProductsInStock;</span>
+
+<span class="nc" id="L80">        storeChangedEvent.fire(</span>
+                new StoreChangedEvent(entity, StoreChangedEvent.Operation.UPDATE)
+        );
+
+<span class="nc" id="L84">        return entity;</span>
+    }
+
+    @PATCH
+    @Path(&quot;{id}&quot;)
+    @Transactional
+    public Store patch(@PathParam(&quot;id&quot;) Long id, Store updatedStore) {
+
+<span class="nc" id="L92">        Store entity = Store.findById(id);</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (entity == null) {</span>
+<span class="nc" id="L94">            throw new WebApplicationException(&quot;Store with id of &quot; + id + &quot; does not exist.&quot;, 404);</span>
+        }
+
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (updatedStore.name != null) {</span>
+<span class="nc" id="L98">            entity.name = updatedStore.name;</span>
+        }
+
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (updatedStore.quantityProductsInStock != 0) {</span>
+<span class="nc" id="L102">            entity.quantityProductsInStock = updatedStore.quantityProductsInStock;</span>
+        }
+
+<span class="nc" id="L105">        storeChangedEvent.fire(</span>
+                new StoreChangedEvent(entity, StoreChangedEvent.Operation.UPDATE)
+        );
+
+<span class="nc" id="L109">        return entity;</span>
+    }
+
+    // ---------------- DELETE ----------------
+
+    @DELETE
+    @Path(&quot;{id}&quot;)
+    @Transactional
+    public Response delete(@PathParam(&quot;id&quot;) Long id) {
+
+<span class="nc" id="L119">        Store entity = Store.findById(id);</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if (entity == null) {</span>
+<span class="nc" id="L121">            throw new WebApplicationException(&quot;Store with id of &quot; + id + &quot; does not exist.&quot;, 404);</span>
+        }
+
+<span class="nc" id="L124">        entity.delete();</span>
+<span class="nc" id="L125">        return Response.status(204).build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

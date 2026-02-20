@@ -67,5 +67,4 @@ public class CreateWarehouseUseCaseTest {
                 .statusCode(500); // because IllegalStateException → no mapper
     }
 
-
 }

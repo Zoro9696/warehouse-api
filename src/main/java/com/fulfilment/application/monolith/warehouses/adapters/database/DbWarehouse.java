@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,43 +14,46 @@ import java.time.LocalDateTime;
 @Cacheable
 public class DbWarehouse {
 
-  @Id @GeneratedValue public Long id;
+    @Id
+    @GeneratedValue
+    public Long id;
 
-  public String businessUnitCode;
+    public String businessUnitCode;
 
-  public String location;
+    public String location;
 
-  public Integer capacity;
+    public Integer capacity;
 
-  public Integer stock;
+    public Integer stock;
 
-  public LocalDateTime createdAt;
+    public LocalDateTime createdAt;
 
-  public LocalDateTime archivedAt;
+    public LocalDateTime archivedAt;
 
-  public DbWarehouse() {}
+    public DbWarehouse() {
+    }
 
-  public Warehouse toWarehouse() {
-    var warehouse = new Warehouse();
-    warehouse.businessUnitCode = this.businessUnitCode;
-    warehouse.location = this.location;
-    warehouse.capacity = this.capacity;
-    warehouse.stock = this.stock;
-    warehouse.createdAt = this.createdAt;
-    warehouse.archivedAt = this.archivedAt;
-    return warehouse;
-  }
+    public Warehouse toWarehouse() {
+        var warehouse = new Warehouse();
+        warehouse.businessUnitCode = this.businessUnitCode;
+        warehouse.location = this.location;
+        warehouse.capacity = this.capacity;
+        warehouse.stock = this.stock;
+        warehouse.createdAt = this.createdAt;
+        warehouse.archivedAt = this.archivedAt;
+        return warehouse;
+    }
 
-  public static DbWarehouse from(Warehouse warehouse) {
-    DbWarehouse entity = new DbWarehouse();
-    entity.businessUnitCode = warehouse.businessUnitCode;
-    entity.location = warehouse.location;
-    entity.capacity = warehouse.capacity;
-    entity.stock = warehouse.stock;
-    entity.createdAt = warehouse.createdAt;
-    entity.archivedAt = warehouse.archivedAt;
-    return entity;
-  }
+    public static DbWarehouse from(Warehouse warehouse) {
+        DbWarehouse entity = new DbWarehouse();
+        entity.businessUnitCode = warehouse.businessUnitCode;
+        entity.location = warehouse.location;
+        entity.capacity = warehouse.capacity;
+        entity.stock = warehouse.stock;
+        entity.createdAt = warehouse.createdAt;
+        entity.archivedAt = warehouse.archivedAt;
+        return entity;
+    }
 
 
 }

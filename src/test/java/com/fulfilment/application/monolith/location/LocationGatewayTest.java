@@ -8,69 +8,70 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LocationGatewayTest {
 
-  @Test
-  public void testWhenResolveExistingLocationShouldReturn() {
-    // given
-    // LocationGateway locationGateway = new LocationGateway();
+    @Test
+    public void testWhenResolveExistingLocationShouldReturn() {
+        // given
+        // LocationGateway locationGateway = new LocationGateway();
 
-    // when
-    // Location location = locationGateway.resolveByIdentifier("ZWOLLE-001");
+        // when
+        // Location location = locationGateway.resolveByIdentifier("ZWOLLE-001");
 
-    // then
-    // assertEquals(location.identification, "ZWOLLE-001");
+        // then
+        // assertEquals(location.identification, "ZWOLLE-001");
 
-  }
-  private LocationGateway locationGateway;
+    }
 
-  @BeforeEach
-  void setUp() {
-    locationGateway = new LocationGateway();
-  }
+    private LocationGateway locationGateway;
 
-  @Test
-  void testResolveExistingLocation() {
-    Location location = locationGateway.resolveByIdentifier("ZWOLLE-001");
+    @BeforeEach
+    void setUp() {
+        locationGateway = new LocationGateway();
+    }
 
-    assertNotNull(location);
-    assertEquals("ZWOLLE-001", location.getIdentification());
-  }
+    @Test
+    void testResolveExistingLocation() {
+        Location location = locationGateway.resolveByIdentifier("ZWOLLE-001");
 
-  @Test
-  void testResolveExistingLocationCaseInsensitive() {
-    Location location = locationGateway.resolveByIdentifier("zwolle-001");
+        assertNotNull(location);
+        assertEquals("ZWOLLE-001", location.getIdentification());
+    }
 
-    assertNotNull(location);
-    assertEquals("ZWOLLE-001", location.getIdentification());
-  }
+    @Test
+    void testResolveExistingLocationCaseInsensitive() {
+        Location location = locationGateway.resolveByIdentifier("zwolle-001");
 
-  @Test
-  void testResolveWithNullIdentifierShouldThrowException() {
-    IllegalArgumentException exception = assertThrows(
-            IllegalArgumentException.class,
-            () -> locationGateway.resolveByIdentifier(null)
-    );
+        assertNotNull(location);
+        assertEquals("ZWOLLE-001", location.getIdentification());
+    }
 
-    assertEquals("Location identifier must not be null or blank", exception.getMessage());
-  }
+    @Test
+    void testResolveWithNullIdentifierShouldThrowException() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> locationGateway.resolveByIdentifier(null)
+        );
 
-  @Test
-  void testResolveWithBlankIdentifierShouldThrowException() {
-    IllegalArgumentException exception = assertThrows(
-            IllegalArgumentException.class,
-            () -> locationGateway.resolveByIdentifier(" ")
-    );
+        assertEquals("Location identifier must not be null or blank", exception.getMessage());
+    }
 
-    assertEquals("Location identifier must not be null or blank", exception.getMessage());
-  }
+    @Test
+    void testResolveWithBlankIdentifierShouldThrowException() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> locationGateway.resolveByIdentifier(" ")
+        );
 
-  @Test
-  void testResolveNonExistingLocationShouldThrowException() {
-    IllegalArgumentException exception = assertThrows(
-            IllegalArgumentException.class,
-            () -> locationGateway.resolveByIdentifier("UNKNOWN-001")
-    );
+        assertEquals("Location identifier must not be null or blank", exception.getMessage());
+    }
 
-    assertTrue(exception.getMessage().contains("Location not found"));
-  }
+    @Test
+    void testResolveNonExistingLocationShouldThrowException() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> locationGateway.resolveByIdentifier("UNKNOWN-001")
+        );
+
+        assertTrue(exception.getMessage().contains("Location not found"));
+    }
 
 }

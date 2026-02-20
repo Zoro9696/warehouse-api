@@ -10,98 +10,99 @@ import com.warehouse.api.beans.Warehouse;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.validation.constraints.NotNull;
+import jakarta.ws.rs.NotFoundException;
+
 import java.util.List;
 
 @RequestScoped
 public class WarehouseResourceImpl implements WarehouseResource {
 
-  @Inject private WarehouseRepository warehouseRepository;
+    @Inject
+    private WarehouseRepository warehouseRepository;
 
-  @Inject
-  private CreateWarehouseOperation createWarehouseOperation;
+    @Inject
+    private CreateWarehouseOperation createWarehouseOperation;
 
-  @Inject
-  private ReplaceWarehouseOperation replaceWarehouseOperation;
+    @Inject
+    private ReplaceWarehouseOperation replaceWarehouseOperation;
 
-  @Inject
-  private ArchiveWarehouseOperation archiveWarehouseOperation;
+    @Inject
+    private ArchiveWarehouseOperation archiveWarehouseOperation;
 
-  @Inject
-  private WarehouseStore warehouseStore;
+    @Inject
+    private WarehouseStore warehouseStore;
 
-  @Override
-  public List<Warehouse> listAllWarehousesUnits() {
-    return warehouseRepository.getAll().stream().map(this::toWarehouseResponse).toList();
-  }
-
-  @Override
-  public Warehouse createANewWarehouseUnit(@NotNull Warehouse data) {
-    var domainWarehouse = toDomain(data);
-
-    createWarehouseOperation.create(domainWarehouse);
-
-    return toWarehouseResponse(domainWarehouse);
-  }
-
-  @Override
-  public Warehouse getAWarehouseUnitByID(String id) {
-    // TODO Auto-generated method stub
-    var warehouse = warehouseStore.findByBusinessUnitCode(id);
-
-    if (warehouse == null) {
-      throw new IllegalStateException("Warehouse not found");
+    @Override
+    public List<Warehouse> listAllWarehousesUnits() {
+        return warehouseRepository.getAll().stream().map(this::toWarehouseResponse).toList();
     }
 
-    return toWarehouseResponse(warehouse);
-  }
+    @Override
+    public Warehouse createANewWarehouseUnit(@NotNull Warehouse data) {
+        var domainWarehouse = toDomain(data);
 
-  @Override
-  public void archiveAWarehouseUnitByID(String id) {
-    var warehouse = warehouseStore.findByBusinessUnitCode(id);
+        createWarehouseOperation.create(domainWarehouse);
 
-    if (warehouse == null) {
-      throw new IllegalStateException("Warehouse not found");
+        return toWarehouseResponse(domainWarehouse);
     }
 
-    archiveWarehouseOperation.archive(warehouse);
-  }
+    @Override
+    public Warehouse getAWarehouseUnitByID(String id) {
+        var warehouse = warehouseStore.findByBusinessUnitCode(id);
 
-  @Override
-  public Warehouse replaceTheCurrentActiveWarehouse(String businessUnitCode,
-                                                    @NotNull Warehouse data){
+        if (warehouse == null) {
+            throw new NotFoundException("Warehouse not found");
+        }
 
-    var domainWarehouse = toDomain(data);
-    domainWarehouse.businessUnitCode = businessUnitCode;
+        return toWarehouseResponse(warehouse);
+    }
 
-    replaceWarehouseOperation.replace(domainWarehouse);
+    @Override
+    public void archiveAWarehouseUnitByID(String id) {
+        var warehouse = warehouseStore.findByBusinessUnitCode(id);
 
-    return toWarehouseResponse(domainWarehouse);
+        if (warehouse == null) {
+            throw new NotFoundException("Warehouse not found");
+        }
 
-  }
+        archiveWarehouseOperation.archive(warehouse);
+    }
+
+    @Override
+    public Warehouse replaceTheCurrentActiveWarehouse(String businessUnitCode,
+                                                      @NotNull Warehouse data) {
+
+        var domainWarehouse = toDomain(data);
+        domainWarehouse.businessUnitCode = businessUnitCode;
+
+        replaceWarehouseOperation.replace(domainWarehouse);
+
+        return toWarehouseResponse(domainWarehouse);
+
+    }
 
 
+    private Warehouse toWarehouseResponse(
+            com.fulfilment.application.monolith.warehouses.domain.models.Warehouse warehouse) {
 
-  private Warehouse toWarehouseResponse(
-          com.fulfilment.application.monolith.warehouses.domain.models.Warehouse warehouse) {
+        var response = new Warehouse();
+        response.setBusinessUnitCode(warehouse.businessUnitCode);
+        response.setLocation(warehouse.location);
+        response.setCapacity(warehouse.capacity);
+        response.setStock(warehouse.stock);
 
-    var response = new Warehouse();
-    response.setBusinessUnitCode(warehouse.businessUnitCode);
-    response.setLocation(warehouse.location);
-    response.setCapacity(warehouse.capacity);
-    response.setStock(warehouse.stock);
+        return response;
+    }
 
-    return response;
-  }
+    private com.fulfilment.application.monolith.warehouses.domain.models.Warehouse toDomain(
+            Warehouse data) {
 
-  private com.fulfilment.application.monolith.warehouses.domain.models.Warehouse toDomain(
-          Warehouse data) {
+        var domain = new com.fulfilment.application.monolith.warehouses.domain.models.Warehouse();
+        domain.businessUnitCode = data.getBusinessUnitCode();
+        domain.location = data.getLocation();
+        domain.capacity = data.getCapacity();
+        domain.stock = data.getStock();
 
-    var domain = new com.fulfilment.application.monolith.warehouses.domain.models.Warehouse();
-    domain.businessUnitCode = data.getBusinessUnitCode();
-    domain.location = data.getLocation();
-    domain.capacity = data.getCapacity();
-    domain.stock = data.getStock();
-
-    return domain;
-  }
+        return domain;
+    }
 }
