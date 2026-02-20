@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.fulfilment.application.monolith.products.ProductEndpointTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 77.69 s -- in com.fulfilment.application.monolith.products.ProductEndpointTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 71.06 s -- in com.fulfilment.application.monolith.products.ProductEndpointTest

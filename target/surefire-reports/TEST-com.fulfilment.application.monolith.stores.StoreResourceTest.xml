@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCaseTest" time="0.742" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.fulfilment.application.monolith.stores.StoreResourceTest" time="8.643" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -73,53 +73,20 @@
     <property name="io.netty.machineId" value="fc:ec:92:45:c6:68:93:72"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="shouldFailIfStockDoesNotMatch" classname="com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCaseTest" time="0.124">
+  <testcase name="shouldReturn404IfStoreMissing" classname="com.fulfilment.application.monolith.stores.StoreResourceTest" time="0.176">
     <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mdelete&amp#27;[0m 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34minsert&amp#27;[0m 
-    &amp#27;[34minto&amp#27;[0m
-        warehouse
-        (archivedAt, businessUnitCode, capacity, createdAt, location, stock, id) 
-    &amp#27;[34mvalues&amp#27;[0m
-        (?, ?, ?, ?, ?, ?, ?)
-&amp#27;[35m[Hibernate]&amp#27;[0m 
     &amp#27;[34mselect&amp#27;[0m
-        dw1_0.id,
-        dw1_0.archivedAt,
-        dw1_0.businessUnitCode,
-        dw1_0.capacity,
-        dw1_0.createdAt,
-        dw1_0.location,
-        dw1_0.stock 
+        s1_0.id,
+        s1_0.name,
+        s1_0.quantityProductsInStock 
     &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0 
+        Store s1_0 
     &amp#27;[34mwhere&amp#27;[0m
-        dw1_0.businessUnitCode=? 
-    &amp#27;[34mfetch&amp#27;[0m
-        first ? &amp#27;[34mrows&amp#27;[0m &amp#27;[34monly&amp#27;[0m
-2026-02-20 13:44:34,929 ERROR [com.ful.app.mon.pro.ProductResource] (executor-thread-2) Failed to handle request: java.lang.IllegalStateException: New warehouse stock must match previous warehouse stock
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase.replace(ReplaceWarehouseUseCase.java:46)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass.replace$$superforward(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass$$function$$1.apply(Unknown Source)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:73)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:62)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.invokeInOurTx(TransactionalInterceptorBase.java:136)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.invokeInOurTx(TransactionalInterceptorBase.java:107)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired.doIntercept(TransactionalInterceptorRequired.java:38)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.intercept(TransactionalInterceptorBase.java:61)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired.intercept(TransactionalInterceptorRequired.java:32)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired_Bean.intercept(Unknown Source)
-	at io.quarkus.arc.impl.InterceptorInvocation.invoke(InterceptorInvocation.java:42)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.perform(AroundInvokeInvocationContext.java:30)
-	at io.quarkus.arc.impl.InvocationContexts.performAroundInvoke(InvocationContexts.java:27)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass.replace(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_ClientProxy.replace(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseResourceImpl.replaceTheCurrentActiveWarehouse(WarehouseResourceImpl.java:78)
-	at com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseResourceImpl_ClientProxy.replaceTheCurrentActiveWarehouse(Unknown Source)
-	at com.warehouse.api.WarehouseResource$quarkusrestinvoker$replaceTheCurrentActiveWarehouse_d6522954ac6664bbd9cb05aa0b7c1513b866c5a0.invoke(Unknown Source)
+        s1_0.id=?
+2026-02-20 13:44:24,678 ERROR [com.ful.app.mon.pro.ProductResource] (executor-thread-1) Failed to handle request: jakarta.ws.rs.WebApplicationException: Store with id of 999999 does not exist.
+	at com.fulfilment.application.monolith.stores.StoreResource.getSingle(StoreResource.java:38)
+	at com.fulfilment.application.monolith.stores.StoreResource_ClientProxy.getSingle(Unknown Source)
+	at com.fulfilment.application.monolith.stores.StoreResource$quarkusrestinvoker$getSingle_0ea403435924cdb47d1c4309397b2b15c27a23a7.invoke(Unknown Source)
 	at org.jboss.resteasy.reactive.server.handlers.InvocationHandler.handle(InvocationHandler.java:29)
 	at io.quarkus.resteasy.reactive.server.runtime.QuarkusResteasyReactiveRequestContext.invokeHandler(QuarkusResteasyReactiveRequestContext.java:141)
 	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.run(AbstractResteasyReactiveContext.java:147)
@@ -134,183 +101,130 @@
 
 ]]></system-out>
   </testcase>
-  <testcase name="shouldReturn404IfWarehouseNotFound" classname="com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCaseTest" time="0.201">
+  <testcase name="shouldDeleteStore" classname="com.fulfilment.application.monolith.stores.StoreResourceTest" time="4.251">
     <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mdelete&amp#27;[0m 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0
+    &amp#27;[34mselect&amp#27;[0m
+        &amp#27;[34mnext&amp#27;[0m &amp#27;[34mvalue&amp#27;[0m &amp#27;[34mfor&amp#27;[0m Store_SEQ
 &amp#27;[35m[Hibernate]&amp#27;[0m 
     &amp#27;[34minsert&amp#27;[0m 
     &amp#27;[34minto&amp#27;[0m
-        warehouse
-        (archivedAt, businessUnitCode, capacity, createdAt, location, stock, id) 
+        Store
+        (name, quantityProductsInStock, id) 
     &amp#27;[34mvalues&amp#27;[0m
-        (?, ?, ?, ?, ?, ?, ?)
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mselect&amp#27;[0m
-        dw1_0.id,
-        dw1_0.archivedAt,
-        dw1_0.businessUnitCode,
-        dw1_0.capacity,
-        dw1_0.createdAt,
-        dw1_0.location,
-        dw1_0.stock 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0 
-    &amp#27;[34mwhere&amp#27;[0m
-        dw1_0.businessUnitCode=? 
-    &amp#27;[34mfetch&amp#27;[0m
-        first ? &amp#27;[34mrows&amp#27;[0m &amp#27;[34monly&amp#27;[0m
-2026-02-20 13:44:35,131 ERROR [com.ful.app.mon.pro.ProductResource] (executor-thread-2) Failed to handle request: jakarta.ws.rs.NotFoundException: Warehouse not found for replacement
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase.replace(ReplaceWarehouseUseCase.java:38)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass.replace$$superforward(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass$$function$$1.apply(Unknown Source)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:73)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:62)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.invokeInOurTx(TransactionalInterceptorBase.java:136)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.invokeInOurTx(TransactionalInterceptorBase.java:107)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired.doIntercept(TransactionalInterceptorRequired.java:38)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.intercept(TransactionalInterceptorBase.java:61)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired.intercept(TransactionalInterceptorRequired.java:32)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired_Bean.intercept(Unknown Source)
-	at io.quarkus.arc.impl.InterceptorInvocation.invoke(InterceptorInvocation.java:42)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.perform(AroundInvokeInvocationContext.java:30)
-	at io.quarkus.arc.impl.InvocationContexts.performAroundInvoke(InvocationContexts.java:27)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass.replace(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_ClientProxy.replace(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseResourceImpl.replaceTheCurrentActiveWarehouse(WarehouseResourceImpl.java:78)
-	at com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseResourceImpl_ClientProxy.replaceTheCurrentActiveWarehouse(Unknown Source)
-	at com.warehouse.api.WarehouseResource$quarkusrestinvoker$replaceTheCurrentActiveWarehouse_d6522954ac6664bbd9cb05aa0b7c1513b866c5a0.invoke(Unknown Source)
-	at org.jboss.resteasy.reactive.server.handlers.InvocationHandler.handle(InvocationHandler.java:29)
-	at io.quarkus.resteasy.reactive.server.runtime.QuarkusResteasyReactiveRequestContext.invokeHandler(QuarkusResteasyReactiveRequestContext.java:141)
-	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.run(AbstractResteasyReactiveContext.java:147)
-	at io.quarkus.vertx.core.runtime.VertxCoreRecorder$14.runWith(VertxCoreRecorder.java:635)
-	at org.jboss.threads.EnhancedQueueExecutor$Task.doRunWith(EnhancedQueueExecutor.java:2516)
-	at org.jboss.threads.EnhancedQueueExecutor$Task.run(EnhancedQueueExecutor.java:2495)
-	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1521)
-	at org.jboss.threads.DelegatingRunnable.run(DelegatingRunnable.java:11)
-	at org.jboss.threads.ThreadLocalResettingRunnable.run(ThreadLocalResettingRunnable.java:11)
-	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-
-]]></system-out>
-  </testcase>
-  <testcase name="shouldFailIfCapacityTooSmall" classname="com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCaseTest" time="0.283">
-    <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mdelete&amp#27;[0m 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34minsert&amp#27;[0m 
-    &amp#27;[34minto&amp#27;[0m
-        warehouse
-        (archivedAt, businessUnitCode, capacity, createdAt, location, stock, id) 
-    &amp#27;[34mvalues&amp#27;[0m
-        (?, ?, ?, ?, ?, ?, ?)
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mselect&amp#27;[0m
-        dw1_0.id,
-        dw1_0.archivedAt,
-        dw1_0.businessUnitCode,
-        dw1_0.capacity,
-        dw1_0.createdAt,
-        dw1_0.location,
-        dw1_0.stock 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0 
-    &amp#27;[34mwhere&amp#27;[0m
-        dw1_0.businessUnitCode=? 
-    &amp#27;[34mfetch&amp#27;[0m
-        first ? &amp#27;[34mrows&amp#27;[0m &amp#27;[34monly&amp#27;[0m
-2026-02-20 13:44:35,432 ERROR [com.ful.app.mon.pro.ProductResource] (executor-thread-2) Failed to handle request: java.lang.IllegalStateException: New capacity cannot accommodate existing stock
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase.replace(ReplaceWarehouseUseCase.java:42)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass.replace$$superforward(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass$$function$$1.apply(Unknown Source)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:73)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.proceed(AroundInvokeInvocationContext.java:62)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.invokeInOurTx(TransactionalInterceptorBase.java:136)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.invokeInOurTx(TransactionalInterceptorBase.java:107)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired.doIntercept(TransactionalInterceptorRequired.java:38)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorBase.intercept(TransactionalInterceptorBase.java:61)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired.intercept(TransactionalInterceptorRequired.java:32)
-	at io.quarkus.narayana.jta.runtime.interceptor.TransactionalInterceptorRequired_Bean.intercept(Unknown Source)
-	at io.quarkus.arc.impl.InterceptorInvocation.invoke(InterceptorInvocation.java:42)
-	at io.quarkus.arc.impl.AroundInvokeInvocationContext.perform(AroundInvokeInvocationContext.java:30)
-	at io.quarkus.arc.impl.InvocationContexts.performAroundInvoke(InvocationContexts.java:27)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_Subclass.replace(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCase_ClientProxy.replace(Unknown Source)
-	at com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseResourceImpl.replaceTheCurrentActiveWarehouse(WarehouseResourceImpl.java:78)
-	at com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseResourceImpl_ClientProxy.replaceTheCurrentActiveWarehouse(Unknown Source)
-	at com.warehouse.api.WarehouseResource$quarkusrestinvoker$replaceTheCurrentActiveWarehouse_d6522954ac6664bbd9cb05aa0b7c1513b866c5a0.invoke(Unknown Source)
-	at org.jboss.resteasy.reactive.server.handlers.InvocationHandler.handle(InvocationHandler.java:29)
-	at io.quarkus.resteasy.reactive.server.runtime.QuarkusResteasyReactiveRequestContext.invokeHandler(QuarkusResteasyReactiveRequestContext.java:141)
-	at org.jboss.resteasy.reactive.common.core.AbstractResteasyReactiveContext.run(AbstractResteasyReactiveContext.java:147)
-	at io.quarkus.vertx.core.runtime.VertxCoreRecorder$14.runWith(VertxCoreRecorder.java:635)
-	at org.jboss.threads.EnhancedQueueExecutor$Task.doRunWith(EnhancedQueueExecutor.java:2516)
-	at org.jboss.threads.EnhancedQueueExecutor$Task.run(EnhancedQueueExecutor.java:2495)
-	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1521)
-	at org.jboss.threads.DelegatingRunnable.run(DelegatingRunnable.java:11)
-	at org.jboss.threads.ThreadLocalResettingRunnable.run(ThreadLocalResettingRunnable.java:11)
-	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
-	at java.base/java.lang.Thread.run(Thread.java:1583)
-
-]]></system-out>
-  </testcase>
-  <testcase name="shouldReplaceWarehouseSuccessfully" classname="com.fulfilment.application.monolith.warehouses.domain.usecases.ReplaceWarehouseUseCaseTest" time="0.074">
-    <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mdelete&amp#27;[0m 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34minsert&amp#27;[0m 
-    &amp#27;[34minto&amp#27;[0m
-        warehouse
-        (archivedAt, businessUnitCode, capacity, createdAt, location, stock, id) 
-    &amp#27;[34mvalues&amp#27;[0m
-        (?, ?, ?, ?, ?, ?, ?)
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mselect&amp#27;[0m
-        dw1_0.id,
-        dw1_0.archivedAt,
-        dw1_0.businessUnitCode,
-        dw1_0.capacity,
-        dw1_0.createdAt,
-        dw1_0.location,
-        dw1_0.stock 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0 
-    &amp#27;[34mwhere&amp#27;[0m
-        dw1_0.businessUnitCode=? 
-    &amp#27;[34mfetch&amp#27;[0m
-        first ? &amp#27;[34mrows&amp#27;[0m &amp#27;[34monly&amp#27;[0m
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34mselect&amp#27;[0m
-        dw1_0.id,
-        dw1_0.archivedAt,
-        dw1_0.businessUnitCode,
-        dw1_0.capacity,
-        dw1_0.createdAt,
-        dw1_0.location,
-        dw1_0.stock 
-    &amp#27;[34mfrom&amp#27;[0m
-        warehouse dw1_0 
-    &amp#27;[34mwhere&amp#27;[0m
-        dw1_0.businessUnitCode=? 
-    &amp#27;[34mfetch&amp#27;[0m
-        first ? &amp#27;[34mrows&amp#27;[0m &amp#27;[34monly&amp#27;[0m
-&amp#27;[35m[Hibernate]&amp#27;[0m 
-    &amp#27;[34minsert&amp#27;[0m 
-    &amp#27;[34minto&amp#27;[0m
-        warehouse
-        (archivedAt, businessUnitCode, capacity, createdAt, location, stock, id) 
-    &amp#27;[34mvalues&amp#27;[0m
-        (?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?)
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Store-15005444581140017797691790075501419.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Store-150054445811400 ] [ items on stock =5]
+Temporary file deleted.
 &amp#27;[35m[Hibernate]&amp#27;[0m 
     &amp#27;[34mdelete&amp#27;[0m 
     &amp#27;[34mfrom&amp#27;[0m
-        warehouse 
+        Store 
     &amp#27;[34mwhere&amp#27;[0m
         id=?
+]]></system-out>
+  </testcase>
+  <testcase name="shouldPatchStore" classname="com.fulfilment.application.monolith.stores.StoreResourceTest" time="1.839">
+    <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34minsert&amp#27;[0m 
+    &amp#27;[34minto&amp#27;[0m
+        Store
+        (name, quantityProductsInStock, id) 
+    &amp#27;[34mvalues&amp#27;[0m
+        (?, ?, ?)
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Store-15005871202480015155387667891450204.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Store-150058712024800 ] [ items on stock =5]
+Temporary file deleted.
+&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34mupdate&amp#27;[0m
+        Store 
+    &amp#27;[34mset&amp#27;[0m
+        name=?,
+        quantityProductsInStock=? 
+    &amp#27;[34mwhere&amp#27;[0m
+        id=?
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Patched-15005889734820014093225073222054319.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Patched-150058897348200 ] [ items on stock =5]
+Temporary file deleted.
+]]></system-out>
+  </testcase>
+  <testcase name="shouldUpdateStore" classname="com.fulfilment.application.monolith.stores.StoreResourceTest" time="1.587">
+    <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34minsert&amp#27;[0m 
+    &amp#27;[34minto&amp#27;[0m
+        Store
+        (name, quantityProductsInStock, id) 
+    &amp#27;[34mvalues&amp#27;[0m
+        (?, ?, ?)
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Store-1500605644755003473240571536704177.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Store-150060564475500 ] [ items on stock =5]
+Temporary file deleted.
+&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34mupdate&amp#27;[0m
+        Store 
+    &amp#27;[34mset&amp#27;[0m
+        name=?,
+        quantityProductsInStock=? 
+    &amp#27;[34mwhere&amp#27;[0m
+        id=?
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Updated-1500608734990001902573550163728450.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Updated-150060873499000 ] [ items on stock =20]
+Temporary file deleted.
+]]></system-out>
+  </testcase>
+  <testcase name="shouldCreateStore" classname="com.fulfilment.application.monolith.stores.StoreResourceTest" time="0.291">
+    <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34minsert&amp#27;[0m 
+    &amp#27;[34minto&amp#27;[0m
+        Store
+        (name, quantityProductsInStock, id) 
+    &amp#27;[34mvalues&amp#27;[0m
+        (?, ?, ?)
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Store-15006215904200015034822112545677386.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Store-150062159042000 ] [ items on stock =10]
+Temporary file deleted.
+]]></system-out>
+  </testcase>
+  <testcase name="shouldGetSingleStore" classname="com.fulfilment.application.monolith.stores.StoreResourceTest" time="0.269">
+    <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34minsert&amp#27;[0m 
+    &amp#27;[34minto&amp#27;[0m
+        Store
+        (name, quantityProductsInStock, id) 
+    &amp#27;[34mvalues&amp#27;[0m
+        (?, ?, ?)
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Store-15006245131840016886906510691309594.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Store-150062451318400 ] [ items on stock =5]
+Temporary file deleted.
+]]></system-out>
+  </testcase>
+  <testcase name="shouldGetAllStores" classname="com.fulfilment.application.monolith.stores.StoreResourceTest" time="0.175">
+    <system-out><![CDATA[&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34minsert&amp#27;[0m 
+    &amp#27;[34minto&amp#27;[0m
+        Store
+        (name, quantityProductsInStock, id) 
+    &amp#27;[34mvalues&amp#27;[0m
+        (?, ?, ?)
+Temporary file created at: C:\Users\Ak96\AppData\Local\Temp\Store-150062723751200608736929895529383.txt
+Data written to temporary file.
+Data read from temporary file: Store created. [ name =Store-150062723751200 ] [ items on stock =5]
+Temporary file deleted.
+&amp#27;[35m[Hibernate]&amp#27;[0m 
+    &amp#27;[34mselect&amp#27;[0m
+        s1_0.id,
+        s1_0.name,
+        s1_0.quantityProductsInStock 
+    &amp#27;[34mfrom&amp#27;[0m
+        Store s1_0 
+    &amp#27;[34morder&amp#27;[0m &amp#27;[34mby&amp#27;[0m
+        s1_0.name
 ]]></system-out>
   </testcase>
 </testsuite>

@@ -6,18 +6,18 @@ import jakarta.enterprise.event.TransactionPhase;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
-<span class="nc" id="L9">public class StoreEventListener {</span>
+<span class="fc" id="L9">public class StoreEventListener {</span>
 
     @Inject
     LegacyStoreManagerGateway legacyStoreManagerGateway;
 
     public void onStoreChanged(@Observes(during = TransactionPhase.AFTER_SUCCESS) StoreChangedEvent event) {
-<span class="nc bnc" id="L15" title="All 2 branches missed.">        if (event.getOperation() == StoreChangedEvent.Operation.CREATE) {</span>
-<span class="nc" id="L16">            legacyStoreManagerGateway.createStoreOnLegacySystem(event.getStore());</span>
-<span class="nc bnc" id="L17" title="All 2 branches missed.">        } else if (event.getOperation() == StoreChangedEvent.Operation.UPDATE) {</span>
-<span class="nc" id="L18">            legacyStoreManagerGateway.updateStoreOnLegacySystem(event.getStore());</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (event.getOperation() == StoreChangedEvent.Operation.CREATE) {</span>
+<span class="fc" id="L16">            legacyStoreManagerGateway.createStoreOnLegacySystem(event.getStore());</span>
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        } else if (event.getOperation() == StoreChangedEvent.Operation.UPDATE) {</span>
+<span class="fc" id="L18">            legacyStoreManagerGateway.updateStoreOnLegacySystem(event.getStore());</span>
         }
-<span class="nc" id="L20">    }</span>
+<span class="fc" id="L20">    }</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
